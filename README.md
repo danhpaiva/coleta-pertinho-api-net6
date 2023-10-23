@@ -1,0 +1,1 @@
+# coleta-pertinho-api-net6
