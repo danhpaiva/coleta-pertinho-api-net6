@@ -5,4 +5,7 @@ public class Ong
     public string? Nome { get; set; }
 
     public string? LocalColeta { get; set; }
+    public DateTime DataCadastro { get; set; }
+    public DateTime DataAtualizacao { get; set; }
+    public bool Ativo { get; set; }
 }
