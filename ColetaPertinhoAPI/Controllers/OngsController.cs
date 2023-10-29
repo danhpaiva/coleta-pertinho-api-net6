@@ -1,6 +1,7 @@
 ﻿using ColetaPertinhoAPI.Context;
 using ColetaPertinhoAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ColetaPertinhoAPI.Controllers
 {
@@ -16,7 +17,7 @@ namespace ColetaPertinhoAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Ong>> Get()
+        public ActionResult<IEnumerable<Ong>> BuscarTodasOngs()
         {
             var ongs = _context.Ongs.ToList();
             if (ongs is null)
@@ -25,7 +26,7 @@ namespace ColetaPertinhoAPI.Controllers
         }
 
         [HttpGet("{id:int}", Name = "obter-produto")]
-        public ActionResult<Ong> Get(int id)
+        public ActionResult<Ong> BuscarOng(int id)
         {
             var ong = _context.Ongs.FirstOrDefault(o => o.OngId == id);
             if (ong is null)
@@ -34,7 +35,7 @@ namespace ColetaPertinhoAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(Ong ong)
+        public ActionResult CadastrarOng(Ong ong)
         {
             try
             {
@@ -50,6 +51,18 @@ namespace ColetaPertinhoAPI.Controllers
             {
                 return BadRequest("Houve um erro!");
             }
+        }
+
+        [HttpPut("{id:int}")]
+        public ActionResult AtualizarOng(int id, Ong ong)
+        {
+            if (id != ong.OngId)
+                return BadRequest();
+
+            _context.Entry(ong).State = EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok(ong);
         }
     }
 }
