@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ColetaPertinhoAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/ongs")]
     [ApiController]
     public class OngsController : ControllerBase
     {
@@ -24,13 +24,32 @@ namespace ColetaPertinhoAPI.Controllers
             return ongs;
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "obter-produto")]
         public ActionResult<Ong> Get(int id)
         {
             var ong = _context.Ongs.FirstOrDefault(o => o.OngId == id);
             if (ong is null)
                 return NotFound($"Ong com o Id: {id} não encontrada!");
             return ong;
+        }
+
+        [HttpPost]
+        public ActionResult Post(Ong ong)
+        {
+            try
+            {
+                if (ong is null)
+                    return BadRequest();
+
+                _context.Ongs.Add(ong);
+                _context.SaveChanges();
+
+                return new CreatedAtRouteResult("obter-produto", new { id = ong.OngId }, ong);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Houve um erro!");
+            }
         }
     }
 }
