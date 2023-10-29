@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ColetaPertinhoAPI.Controllers
 {
-    [Route("api/ongs")]
+    [Route("v1/api/ongs")]
     [ApiController]
     public class OngsController : ControllerBase
     {
