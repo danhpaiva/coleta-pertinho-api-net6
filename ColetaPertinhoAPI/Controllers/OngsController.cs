@@ -64,5 +64,19 @@ namespace ColetaPertinhoAPI.Controllers
 
             return Ok(ong);
         }
+
+        [HttpDelete("{id:int}")]
+        public ActionResult DeletarOng(int id)
+        {
+            var ong = _context.Ongs.FirstOrDefault(o => o.OngId == id);
+
+            if (ong is null)
+                return NotFound($"Ong {id} não encontrada!");
+
+            _context.Ongs.Remove(ong);
+            _context.SaveChanges();
+
+            return Ok(ong);
+        }
     }
 }
