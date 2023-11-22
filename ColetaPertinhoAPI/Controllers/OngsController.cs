@@ -34,6 +34,15 @@ namespace ColetaPertinhoAPI.Controllers
             return ong;
         }
 
+        [HttpGet("{nomeResponsavel}", Name = "obter-produto-responsavel")]
+        public ActionResult<Ong> BuscarOngPorResponsavel(string nomeResponsavel)
+        {
+            var ong = _context.Ongs.FirstOrDefault(o => o.NomeResponsavel == nomeResponsavel);
+            if (ong is null)
+                return NotFound($"Nenhuma ong encontrada para o responsável: {nomeResponsavel}!");
+            return ong;
+        }
+
         [HttpPost]
         public ActionResult CadastrarOng(Ong ong)
         {
