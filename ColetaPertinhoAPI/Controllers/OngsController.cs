@@ -25,12 +25,30 @@ namespace ColetaPertinhoAPI.Controllers
             return ongs;
         }
 
-        [HttpGet("{id:int}", Name = "obter-produto")]
+        [HttpGet("{id:int}", Name = "obter-ong")]
         public ActionResult<Ong> BuscarOng(int id)
         {
             var ong = _context.Ongs.FirstOrDefault(o => o.OngId == id);
             if (ong is null)
                 return NotFound($"Ong com o Id: {id} não encontrada!");
+            return ong;
+        }
+
+        [HttpGet("get-nome/{nomeResponsavel}", Name = "obter-ong-responsavel")]
+        public ActionResult<Ong> BuscarOngPorResponsavel(string nomeResponsavel)
+        {
+            var ong = _context.Ongs.FirstOrDefault(o => o.NomeResponsavel == nomeResponsavel);
+            if (ong is null)
+                return NotFound($"Nenhuma ong encontrada para o responsável: {nomeResponsavel}!");
+            return ong;
+        }
+
+        [HttpGet("get-responsavel/{nomeOng}", Name = "obter-ong-nome")]
+        public ActionResult<Ong> BuscarOngPorNome(string nomeOng)
+        {
+            var ong = _context.Ongs.FirstOrDefault(o => o.Nome.Contains(nomeOng));
+            if (ong is null)
+                return NotFound($"Nenhuma ong encontrada para o responsável: {nomeOng}!");
             return ong;
         }
 
@@ -45,7 +63,7 @@ namespace ColetaPertinhoAPI.Controllers
                 _context.Ongs.Add(ong);
                 _context.SaveChanges();
 
-                return new CreatedAtRouteResult("obter-produto", new { id = ong.OngId }, ong);
+                return new CreatedAtRouteResult("obter-ong", new { id = ong.OngId }, ong);
             }
             catch (Exception)
             {
